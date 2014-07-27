@@ -1,5 +1,10 @@
 package com.example.rapid.web;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import ru.xpoft.vaadin.VaadinView;
+
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Alignment;
@@ -8,7 +13,12 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Reindeer;
 
+@Component
+@Scope("prototype")
+@VaadinView(ProjectView.NAME)
 public class ProjectView extends VerticalLayout implements View {
+	public static final String NAME = "Projects";
+	
     /**
 	 * 
 	 */

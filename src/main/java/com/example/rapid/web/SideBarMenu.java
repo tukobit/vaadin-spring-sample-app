@@ -1,24 +1,28 @@
 package com.example.rapid.web;
 
-import com.example.rapid.web.ui.ProjectView;
-import com.example.rapid.web.ui.RapidUserView;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import ru.xpoft.vaadin.VaadinView;
+
+import com.example.rapid.web.NavigatorUI2.MainView;
 import com.example.rapid.web.ui.WorkEntryView;
 import com.vaadin.navigator.Navigator;
-import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.themes.Reindeer;
 
+@Component
+@Scope("prototype")
 public class SideBarMenu extends Panel {
 
 	Navigator navigator;
+	
+	@Autowired
+	private UserFormView userView;
 	
 	/**
 	 * 
@@ -39,7 +43,8 @@ public class SideBarMenu extends Panel {
 
 			this.addClickListener(new Button.ClickListener() {
 				public void buttonClick(ClickEvent event) {
-					navigator.navigateTo(NavigatorUI.MAINVIEW + "/" + viewName);
+//					navigator.navigateTo(NavigatorUI.MAINVIEW + "/" + viewName);
+					navigator.navigateTo(viewName);
 				}
 			});
 		}
@@ -51,16 +56,8 @@ public class SideBarMenu extends Panel {
 //      this.addComponent(logout);
 		
 		menuHolder.setHeight("100%");
-        menuHolder.setWidth(null);
-
         Button logout = new Button("Logout");
         menuContent.addComponent(logout);	
-        menuContent.addComponent(new SideBarItem("Pig"));
-        menuContent.addComponent(new SideBarItem("Cat"));
-        menuContent.addComponent(new SideBarItem("Dog"));
-        menuContent.addComponent(new SideBarItem("Reindeer"));
-        menuContent.addComponent(new SideBarItem("Penguin"));
-        menuContent.addComponent(new SideBarItem("Sheep"));
         menuContent.setWidth("100%");
         menuContent.setMargin(true);
         addEntityViewsToList();
@@ -82,15 +79,9 @@ public class SideBarMenu extends Panel {
 	
 	
 	 private void addEntityViewsToList() {
-      navigator.addView("", WelcomeView.class);
-   	  navigator.addView(NavigatorUI.MAINVIEW + "/" +"Project", new com.example.rapid.web.ProjectView());
-   	  navigator.addView(NavigatorUI.MAINVIEW + "/" + "User_List", new UserView());
-   	  navigator.addView(NavigatorUI.MAINVIEW + "/" +"work_entry", WorkEntryView.class);
-   	  
-//   	  menuItems.add(menuItem);
-   	  menuContent.addComponent(new SideBarItem("Project"));
-   	  menuContent.addComponent(new SideBarItem("User_List"));
-   	  menuContent.addComponent(new SideBarItem("work_entry"));
+   	  menuContent.addComponent(new SideBarItem(ProjectView.NAME));
+   	  menuContent.addComponent(new SideBarItem(UserFormView.NAME));
+   	 
 
 //       for (final String key : entityViews.keySet()) {
 //           Class viewClass = entityViews.get(key);

@@ -13,10 +13,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="WorkEntry")
-public class WorkEntry {
+public class WorkEntry extends AbstractEntity{
 
-    /**
-     */
+	private static final long serialVersionUID = -2135058949020976337L;
+
     @Size(max = 255)
     private String comment;
 

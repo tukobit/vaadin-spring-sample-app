@@ -1,16 +1,18 @@
 package com.example.rapid.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import ru.xpoft.vaadin.DiscoveryNavigator;
+
+import com.example.rapid.UserService;
+import com.example.rapid.domain.User;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.Navigator.ComponentContainerViewDisplay;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Embedded;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
@@ -21,40 +23,25 @@ import com.vaadin.ui.VerticalLayout;
 @Scope("prototype")
 public class NavigatorUI extends UI implements ViewChangeListener {
 
-	private HorizontalSplitPanel mainLayout;
-
-	public static final String MAINVIEW = "main";
-
-	private VerticalLayout sidebar;
-
-	private Panel scroll;
-
-	private CssLayout viewList;
-
-	private Label appName;
+	@Autowired
+	private UserService userService;
 	
-	private Navigator navigator;
-	Panel contentPanel = new Panel("An Equal");
+    DiscoveryNavigator navigator;
+
+	Panel contentPanel = new Panel("Insurance Management Systems");
 
 	private VerticalLayout contentPanelContent = new VerticalLayout();
 	
-//	private List<SidebarItem> menuItems = new ArrayList<SidebarItem>();
-
 	@Override
 	protected void init(VaadinRequest request) {
 		setSizeFull();
 		IMSMainView view = new IMSMainView(contentPanelContent);
-		
-
 		ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(contentPanelContent);
-        navigator = new Navigator(this, viewDisplay);
+		navigator = new DiscoveryNavigator(this, viewDisplay);
         SideBarMenu sideMenu = new SideBarMenu(navigator);
         view.addComponent(sideMenu);
-//        view.setupMainLayout();
         contentPanel.setContent(contentPanelContent);
         view.addComponent(contentPanel);
-        
-        
 //        navigator.addView(MAINVIEW, view);	
 //        mainLayout.addComponent(sideMenu);
         // layout and style adjustments
@@ -76,6 +63,7 @@ public class NavigatorUI extends UI implements ViewChangeListener {
 //        addEntityViewsToList();
 //        WelcomeView view = new WelcomeView();
 //        mainLayout.setSecondComponent(view);
+		navigator.navigateTo(UserListView.NAME);
 	}
 	
 	public void setupContent()
